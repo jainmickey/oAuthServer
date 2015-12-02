@@ -1,0 +1,3 @@
+[run]
+source = auth_server/
+omit = '*tests*,*commands*,*migrations*,*admin*,*wsgi*'

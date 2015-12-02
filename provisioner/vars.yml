@@ -1,0 +1,6 @@
+---
+project_name: auth_server
+project_repo_url: git@github.com:jainmickey93/oAuthServer.git
+project_repo_remote: origin
+domain_name: auth_server.com
+repo_version: master

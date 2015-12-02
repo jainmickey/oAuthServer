@@ -1,0 +1,42 @@
+language: python
+sudo: false
+python:
+- '2.7'
+addons:
+  postgresql: "9.4"
+
+before_script:
+- export DATABASE_URL=postgres://postgres@localhost/auth_server
+- export DJANGO_SECRET=`openssl rand -base64 32`
+- psql -c "CREATE DATABASE auth_server;" -U postgres
+
+install:
+  - pip install ansible
+  - pip install -r requirements/development.txt
+
+script:
+- flake8
+- py.test --cov -v --tb=native
+- ansible-playbook -i provisioner/hosts provisioner/site.yml --syntax-check
+
+notifications:
+  email:
+    on_success: change  # [always|never|change]
+    on_failure: always  # [always|never|change]
+deploy:
+  provider: heroku
+  buildpack: python
+  strategy: api
+  api_key:
+    # travis encrypt $(heroku auth:token) --add deploy.api_key
+    secure: <add_heroku_auth_token_here>
+  app:
+    master: auth_server-dev
+    qa: auth_server-qa
+    prod: auth_server-prod
+  on:
+    repo: jainmickey93/oAuthServer
+  run:
+    # Run migration while answering "yes" to any question prompted.
+    # Note: collectstatic is run automatically on heroku.
+    - 'yes "yes" | python manage.py migrate'
