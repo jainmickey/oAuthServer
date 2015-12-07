@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends 'pages/base.html' %}
 {% load i18n %}
 {% block title %}{% trans 'Home' %} • {{ block.super }}{% endblock title %}
 {% block body_classes %}{{ block.super}} page-home {% endblock body_classes %}
@@ -6,8 +6,8 @@
     <div class="col-sm-6 col-sm-offset-3">
       <div class="panel panel-default">
         <div class="panel-body">
-          <h5 class="center-block">{% trans "Successfully logged out." %}!!</h5>
+          <h5 class="center-block">{{ user_detail.email }}</h5>
         </div>
       </div>
     </div><!--End .col-sm-6-->
-{% endblock %}
+{% endblock content %}

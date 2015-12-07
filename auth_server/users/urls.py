@@ -7,7 +7,8 @@ from django.conf.urls import url
 from django.views.generic.base import TemplateView
 from django.contrib.auth import views as auth_views
 
-from .views import RegistrationView
+from .views import (RegistrationView,
+                    UserDetailView)
 
 
 urlpatterns = [
@@ -19,10 +20,12 @@ urlpatterns = [
     url(r'register/$',
         RegistrationView.as_view(),
         name='registration_register'),
-    url(r'^login/', auth_views.login,
+    url(r'^login/$', auth_views.login,
         {'template_name': 'registration/login.html'},
         name='auth_login'),
-    url(r'^logout/', auth_views.logout,
+    url(r'^logout/$', auth_views.logout,
         {'template_name': 'registration/logout.html'},
         name='auth_logout'),
+    url(r'^profile/$',
+        UserDetailView.as_view(), name="home"),
 ]

@@ -259,9 +259,6 @@ AUTOSLUG_SLUGIFY_FUNCTION = "slugify.slugify"
 # Django Registration
 ACCOUNT_ACTIVATION_DAYS = 7  # One-week activation
 
-# Login Redirect URL
-LOGIN_REDIRECT_URL = '/'
-
 # LOGGING CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#logging

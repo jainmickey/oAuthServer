@@ -8,8 +8,10 @@ from django.contrib.auth import (authenticate,
                                  login)
 from django.shortcuts import redirect
 from django.views.generic.edit import FormView
+from django.views.generic import DetailView
 
 from .forms import RegistrationFormUniqueEmail
+from auth_server.mixins import LoginRequiredMixin
 
 User = get_user_model()
 
@@ -54,3 +56,17 @@ class RegistrationView(FormView):
             'is_staff': False,
             'is_superuser': False
         }
+
+class UserDetailView(LoginRequiredMixin, DetailView):
+
+    context_object_name = 'user_detail'
+    template_name = 'profile/index.html'
+    model = User
+
+    def get_object(self):
+        return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super(UserDetailView, self).get_context_data(**kwargs)
+        return context
+
