@@ -39,6 +39,8 @@ class User(AbstractBaseUser, UUIDModel, PermissionsMixin):
     first_name = models.CharField(_('First Name'), max_length=120, blank=True)
     last_name = models.CharField(_('Last Name'), max_length=120, blank=True)
     email = models.EmailField(_('email address'), unique=True, db_index=True)
+    project_url = models.URLField(_('Project Url'), blank=True, null=True)
+    code_url = models.URLField(_('Code Url'), blank=True, null=True)
     is_staff = models.BooleanField(_('staff status'), default=False,
                                    help_text='Designates whether the user can log into this admin site.')
 

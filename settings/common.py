@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'auth_server.base',
     'auth_server.users',
     'auth_server.pages',
+    'auth_app',
 
     'django_extensions',  # http://django-extensions.readthedocs.org/
     'rest_framework',  # http://www.django-rest-framework.org/

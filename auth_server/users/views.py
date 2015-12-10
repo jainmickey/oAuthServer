@@ -57,6 +57,7 @@ class RegistrationView(FormView):
             'is_superuser': False
         }
 
+
 class UserDetailView(LoginRequiredMixin, DetailView):
 
     context_object_name = 'user_detail'
@@ -69,4 +70,3 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(UserDetailView, self).get_context_data(**kwargs)
         return context
-

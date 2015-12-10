@@ -1,6 +1,6 @@
 # Core Stuff
 # -------------------------------------
-django==1.8.7
+django==1.9
 whitenoise==2.0.6
 
 # Extensions
@@ -34,3 +34,5 @@ psycopg2==2.6.1
 # Django Rest Framework
 # -------------------------------------
 djangorestframework==3.3.1
+
+shortuuid==0.4.2
