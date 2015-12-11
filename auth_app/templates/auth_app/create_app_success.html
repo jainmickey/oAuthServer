@@ -7,10 +7,18 @@
   <div class="col-sm-6 col-sm-offset-3">
     <div class="panel panel-default">
       <div class="panel-body">
-        <h3 class="center-block">{% trans "Successfully logged out." %}!!</h3>
-        <a type="button" class="btn btn-primary pull-right" href="{% url "auth_login" %}">{% trans "Login" %}</a>
+        <h3 class="center-block">{% trans "Successfully Created Application." %}!!</h3>
+        <a type="button" class="btn btn-primary pull-right" onclick="closeWin()">{% trans "Close" %}</a>
       </div><!--End .panel-body-->
     </div><!--End .panel-default-->
   </div><!--End .col-sm-12-->
 </div><!--End .row-->
 {% endblock %}
+
+{% block extrajs %}
+  <script>
+    function closeWin() {
+      opener.location.reload();
+    }
+  </script>
+{% endblock extrajs %}

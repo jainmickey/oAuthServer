@@ -3,11 +3,67 @@
 {% block title %}{% trans 'Home' %} • {{ block.super }}{% endblock title %}
 {% block body_classes %}{{ block.super}} page-home {% endblock body_classes %}
 {% block content %}
-    <div class="col-sm-6 col-sm-offset-3">
+  <div class="row">
+    <div class="col-sm-12">
+      <h3 class="center-block">
+        {{ user_detail.email }}
+        <a type="button" class="btn btn-primary pull-right" href="{% url "auth_logout" %}">{% trans "Logout" %}</a>
+      </h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-10 col-sm-offset-1">
       <div class="panel panel-default">
-        <div class="panel-body">
-          <h5 class="center-block">{{ user_detail.email }}</h5>
+        <div class="panel-heading">
+          <h3>
+            {% trans "Applications" %}
+            <button type="button" class="btn btn-primary pull-right" onclick="add_app()">{% trans "Add App" %}</button>
+          </h3>
         </div>
-      </div>
+        <div class="panel-body">
+          <table class="table table-striped table-hover table-condensed">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>{% trans "Name" %}</th>
+                <th>{% trans "Redirect Url" %}</th>
+                <th>{% trans "Access Key" %}</th>
+                <th>{% trans "Secret Key" %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for app in apps %}
+              <tr>
+                <td></td>
+                <td>{{ app.name }}</td>
+                <td>{{ app.redirect_url }}</td>
+                <td>{{ app.access_key }}</td>
+                <td>{{ app.secret_key }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table><!--End .table-->
+        </div><!--End .panel-body-->
+      </div><!--End .panel-default-->
     </div><!--End .col-sm-6-->
+  </div><!--End .row-->
 {% endblock content %}
+
+{% block extrajs %}
+  <script>
+    function add_app() {
+      add_app_window = window.open("{% url "create_app" %}", "{% trans "Add Application" %}", "width=300, height=300");
+    }
+
+    function closeWin() {
+        if (add_app_window && !add_app_window.closed) {
+            add_app_window.close();   // Closes the new window
+        }
+    }
+
+    // Adding new window close event
+    window.onunload = function() {
+        closeWin();
+    };
+  </script>
+{% endblock extrajs %}

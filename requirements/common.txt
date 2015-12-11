@@ -13,7 +13,7 @@ pytz==2015.7
 # Configuration
 # -------------------------------------
 django-environ==0.4.0
-django-sites==0.8
+django-sites==0.9
 django-secure==1.0.1
 python-dotenv==0.3.0
 

@@ -33,8 +33,8 @@
             {% endblock header %}
         </div><!--End .page-header-->
       </div><!--End .row-->
-      <div class="row">
-        {% block content %}
+      {% block content %}
+        <div class="row">
           <div class="col-sm-6 col-sm-offset-3">
             <div class="panel panel-default">
               <div class="panel-body">
@@ -42,8 +42,8 @@
               </div>
             </div>
           </div><!--End .col-sm-6-->
-        {% endblock content %}
-      </div><!--End .row-->
+        </div><!--End .row-->
+      {% endblock content %}
       <div class="row">
         {% block footer %} {% endblock footer %}
       </div>
@@ -63,5 +63,7 @@
       <script src="{% static 'js/project.js' %}"></script>
       <script src="{% static 'js/bootstrap.min.js' %}"></script>
     {% endblock js %}
+    {% block extrajs %}
+    {% endblock extrajs %}
   </body>
 </html>

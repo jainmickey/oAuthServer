@@ -1,9 +1,20 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
-<h3>Create Application</h3>
-<form action="{% url 'oauth_app_authorize' %}" method="post">{% csrf_token %}
-  {{ form }}
-  <input type="submit" name="authorized" value="Submit" />
-</form>
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3>{% trans "Add Application" %}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{% url 'create_app' %}" method="post">{% csrf_token %}
+          {{ form }}
+          <input type="submit" class="btn btn-primary" name="authorized" value="{% trans "Submit" %}" />
+        </form>
+      </div><!--End .panel-body-->
+    </div><!--End .panel-default-->
+  </div><!--End .col-sm-12-->
+</div><!--End .row-->
 {% endblock %}

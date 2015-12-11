@@ -45,7 +45,7 @@ class RegistrationView(FormView):
         return new_user
 
     def get_success_url(self, user):
-        return '/'
+        return '/accounts/profile'
 
     def get_user_kwargs(self, **cleaned_data):
         User = get_user_model()
@@ -69,4 +69,6 @@ class UserDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(UserDetailView, self).get_context_data(**kwargs)
+        user = User.objects.get(email__iexact=self.request.user.email)
+        context['apps'] = user.user_apps.all()
         return context

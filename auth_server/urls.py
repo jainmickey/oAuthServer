@@ -13,6 +13,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views import defaults as dj_default_views
 
+from auth_app import urls as app_urls
 from auth_server.base import views as base_views
 from auth_server.users import urls as registration_urls
 from .routers import router
@@ -38,6 +39,9 @@ urlpatterns = [
 
     # accounts/ registration
     url(r'^accounts/', include(registration_urls)),
+
+    # app/ user application
+    url(r'^app/', include(app_urls)),
 
     # Your stuff: custom urls go here
 

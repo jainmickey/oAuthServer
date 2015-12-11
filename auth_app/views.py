@@ -1,9 +1,8 @@
 from django.contrib.auth.decorators import login_required
-from django.http import (HttpResponseRedirect,
-                         JsonResponse)
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_post
+from django.views.decorators.http import require_POST
 
 from .models import (App,
                      AccessToken,
@@ -15,7 +14,7 @@ from . import forms
 
 
 @login_required
-def create_application(request, form_class=forms.CreateAppForm):
+def createApplication(request, form_class=forms.CreateAppForm):
     if request.method == "POST":
         form = form_class(request.POST)
         if form.is_valid():
@@ -26,16 +25,17 @@ def create_application(request, form_class=forms.CreateAppForm):
                                redirect_url=redirect_url,
                                access_key=generate_token(),
                                secret_key=generate_token())
-            return HttpResponseRedirect("/")
+            return render(request, "auth_app/create_app_success.html")
     else:
         form = form_class()
 
-    return render(request, template_name="auth_app/create_app.html")
+    return render(request, "auth_app/create_app.html",
+                  {"form": form})
 
 
 @csrf_exempt
 @login_required
-@require_post
+@require_POST
 def getAuthorizationCode(request, form_class=forms.ClientAuthForm):
     form = form_class(request.POST)
     if form.is_valid():
@@ -48,7 +48,7 @@ def getAuthorizationCode(request, form_class=forms.ClientAuthForm):
         params = {"auth_code": auth_code.token}
         if form.cleaned_data["state"]:
             params.update({"state": form.cleaned_data["state"]})
-        redirect_util(application.redirect_url, params)
+        return redirect_util(application.redirect_url, params)
     else:
         if form.errors.get("access_key"):
             error_desc = form.errors.get("access_key")[0]
@@ -59,18 +59,18 @@ def getAuthorizationCode(request, form_class=forms.ClientAuthForm):
 
         application = form.cleaned_data.get("application")
         if application:
-            redirect_util(application.redirect_url,
-                          {"error": "invalid_request",
-                           "error_description": error_desc})
+            return redirect_util(application.redirect_url,
+                                 {"error": "invalid_request",
+                                  "error_description": error_desc})
         else:
-            redirect_util(request.META.get("REFERER", "/"),
-                          {"error": "invalid_request",
-                           "error_description": error_desc})
+            return redirect_util(request.META.get("REFERER", "/"),
+                                 {"error": "invalid_request",
+                                  "error_description": error_desc})
 
 
 @csrf_exempt
 @login_required
-@require_post
+@require_POST
 def getAccessToken(request, form_class=forms.AccessTokenForm):
     form = form_class(request.POST)
     if form.is_valid():
@@ -102,8 +102,8 @@ def getAccessToken(request, form_class=forms.AccessTokenForm):
 
 @csrf_exempt
 @login_required
-@require_post
-def resume_submit(request, form_class=forms.ResumeSubmissionForm):
+@require_POST
+def submitResume(request, form_class=forms.ResumeSubmissionForm):
     form = form_class(request.POST, request.FILES)
     if form.is_valid():
         user = form.cleaned_data.get("access_token").user

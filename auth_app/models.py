@@ -19,7 +19,7 @@ class App(models.Model):
      @param redirect_uri : Application's callback url
     """
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             related_name="auth_client",
+                             related_name="user_apps",
                              blank=True, null=True)
     name = models.CharField(help_text=_('Application Name'), max_length=50,
                             blank=True, null=True)
@@ -47,9 +47,9 @@ class Grant(models.Model):
      @param token : Generated private key for access
     """
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             related_name="grant_client",
+                             related_name="user_grants",
                              blank=True, null=True)
-    app = models.ForeignKey(App, related_name="grant_app")
+    app = models.ForeignKey(App, related_name="app_grant")
     token = models.CharField(max_length=255, default=generate_token)
     expires = models.DateTimeField(default=timezone.now)
 
@@ -69,9 +69,9 @@ class AccessToken(models.Model):
      @param token : Generated private key for access
     """
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             related_name="access_token_client",
+                             related_name="user_access_tokens",
                              blank=True, null=True)
-    app = models.ForeignKey(App, related_name="access_token_app")
+    app = models.ForeignKey(App, related_name="app_access_token")
     token = models.CharField(max_length=255, default=generate_token)
     expires = models.DateTimeField(default=timezone.now)
 
@@ -86,7 +86,8 @@ class Submission(models.Model):
      @param user
      @param resume : Uploaded Resume
     """
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             related_name="user_resume_submission")
     resume = models.FileField(upload_to="resumes")
 
     def __unicode__(self):

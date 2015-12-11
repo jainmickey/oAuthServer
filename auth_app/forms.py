@@ -61,7 +61,7 @@ class AccessTokenForm(forms.Form):
         return data
 
 
-class ClientAppForm(forms.Form):
+class CreateAppForm(forms.Form):
     """
     """
     name = forms.CharField(max_length=50)
