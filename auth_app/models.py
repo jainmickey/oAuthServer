@@ -2,10 +2,11 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.db import models
+from django.db.models.signals import post_save
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from .utils import generate_token
+from . import utils
 
 
 class App(models.Model):
@@ -24,9 +25,9 @@ class App(models.Model):
     name = models.CharField(help_text=_('Application Name'), max_length=50,
                             blank=True, null=True)
     access_key = models.CharField(help_text=_('Access Key'), max_length=255,
-                                  default=generate_token)
+                                  default=utils.generate_token)
     secret_key = models.CharField(help_text=_('Secret Key'), max_length=255,
-                                  default=generate_token)
+                                  default=utils.generate_token)
     redirect_url = models.URLField(null=True,
                                    help_text=_("Your application's callback URL"))
 
@@ -50,7 +51,7 @@ class Grant(models.Model):
                              related_name="user_grants",
                              blank=True, null=True)
     app = models.ForeignKey(App, related_name="app_grant")
-    token = models.CharField(max_length=255, default=generate_token)
+    token = models.CharField(max_length=255, default=utils.generate_token)
     expires = models.DateTimeField(default=timezone.now)
 
     def __unicode__(self):
@@ -72,7 +73,7 @@ class AccessToken(models.Model):
                              related_name="user_access_tokens",
                              blank=True, null=True)
     app = models.ForeignKey(App, related_name="app_access_token")
-    token = models.CharField(max_length=255, default=generate_token)
+    token = models.CharField(max_length=255, default=utils.generate_token)
     expires = models.DateTimeField(default=timezone.now)
 
     def __unicode__(self):
@@ -91,4 +92,8 @@ class Submission(models.Model):
     resume = models.FileField(upload_to="resumes")
 
     def __unicode__(self):
-        return "%s" % self.user_profile
+        return "%s" % self.user
+
+
+post_save.connect(utils.send_mail_to_admin, sender=Submission)
+post_save.connect(utils.send_mail_to_applicant, sender=Submission)

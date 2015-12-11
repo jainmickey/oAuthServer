@@ -4,11 +4,14 @@ from __future__ import absolute_import, unicode_literals
 # Third Party Stuff
 from django.contrib import admin
 
-from .models import (App, Grant, AccessToken)
+from . import models
 
 
 # ModelAdmins
 # ----------------------------------------------------------------------------
-@admin.register(App, Grant, AccessToken)
+@admin.register(models.App,
+                models.Grant,
+                models.AccessToken,
+                models.Submission)
 class UserApplication(admin.ModelAdmin):
     pass

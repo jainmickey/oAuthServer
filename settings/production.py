@@ -149,4 +149,6 @@ TEMPLATES[0]['OPTIONS']['loaders'] = [
     ('django.template.loaders.cached.Loader', TEMPLATES[0]['OPTIONS']['loaders']),
 ]
 
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+
 # Your production stuff: Below this line define 3rd party libary settings
