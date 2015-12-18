@@ -159,8 +159,8 @@ def deploy():
 # Helpers
 # ---------------------------------------------------------
 def manage(cmd, venv=True):
-    with virtualenv():
-        local('python manage.py %s' % cmd)
+    # with virtualenv():
+    local('python manage.py %s' % cmd)
 
 
 @_contextmanager

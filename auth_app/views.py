@@ -110,7 +110,7 @@ def submitResume(request, form_class=forms.ResumeSubmissionForm):
         user.first_name = form.cleaned_data.get("first_name")
         user.last_name = form.cleaned_data.get("last_name")
         user.save()
-        user.projects_url = form.cleaned_data["projects_url"]
+        user.project_url = form.cleaned_data["project_url"]
         user.code_url = form.cleaned_data["code_url"]
         user.save()
         Submission.objects.filter(user=user).delete()

@@ -27,5 +27,5 @@ urlpatterns = [
         {'template_name': 'registration/logout.html'},
         name='auth_logout'),
     url(r'^profile/$',
-        UserDetailView.as_view(), name="home"),
+        UserDetailView.as_view(), name="profile"),
 ]

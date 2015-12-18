@@ -73,7 +73,7 @@ class ResumeSubmissionForm(forms.Form):
     """
     first_name = forms.CharField(max_length=50)
     last_name = forms.CharField(max_length=50)
-    projects_url = forms.URLField()
+    project_url = forms.URLField()
     code_url = forms.URLField()
     resume = forms.FileField()
     access_token = forms.CharField(error_messages={"required": Errors["invalid_request"][6]})
@@ -82,7 +82,7 @@ class ResumeSubmissionForm(forms.Form):
         data = self.cleaned_data
         access_token = None
         if data.get("access_token"):
-            access_token = AccessToken.objects.filter(token__iexact=access_token)
+            access_token = AccessToken.objects.filter(token__iexact=data.get('access_token'))
         if not access_token:
             raise forms.ValidationError(Errors["invalid_request"][7])
         return access_token[0]

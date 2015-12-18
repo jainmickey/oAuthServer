@@ -31,7 +31,7 @@ class App(models.Model):
     redirect_url = models.URLField(null=True,
                                    help_text=_("Your application's callback URL"))
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -54,7 +54,7 @@ class Grant(models.Model):
     token = models.CharField(max_length=255, default=utils.generate_token)
     expires = models.DateTimeField(default=timezone.now)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.token
 
 
@@ -76,7 +76,7 @@ class AccessToken(models.Model):
     token = models.CharField(max_length=255, default=utils.generate_token)
     expires = models.DateTimeField(default=timezone.now)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.token
 
 
@@ -91,8 +91,8 @@ class Submission(models.Model):
                              related_name="user_resume_submission")
     resume = models.FileField(upload_to="resumes")
 
-    def __unicode__(self):
-        return "%s" % self.user
+    def __str__(self):
+        return '{}'.format(self.user.email)
 
 
 post_save.connect(utils.send_mail_to_admin, sender=Submission)
